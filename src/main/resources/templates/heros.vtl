@@ -1,0 +1,14 @@
+<h1>Super heros squad list:</h1>
+
+
+#if ($heros)
+  <ul>
+    #foreach ($hero in $heros)
+      <li><a href="/heros/$hero.getId()">$hero.getName()</a></li>
+    #end
+  </ul>
+#else
+  <p>No super heros!</p>
+#end
+
+<button class="btn-info"><a href="/heros/new">Add a super hero:</a></button>
