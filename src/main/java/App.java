@@ -17,10 +17,12 @@ public class App {
     	return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("heros/new", (request, response) -> {
+    get("categories/:id/heros/new", (request, response) -> {
     	Map<String, Object> model = new HashMap<String, Object>();
-    	model.put("template", "templates/hero-form.vtl");
-    	return new ModelAndView(model, layout);
+       Category category = Category.find(Integer.parseInt(request.params(":id")));
+       model.put("category", category);
+       model.put("template", "templates/category-heros-form.vtl");
+       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     get("/heros", (request, response) -> {
@@ -48,7 +50,10 @@ public class App {
 
         String name = request.queryParams("name"); // Saving user inputted hero name into a String
         int age = Integer.parseInt(request.queryParams("age"));
-        Squad newSquad = new Squad(name, age); // Squad constructorcreating new squad with the user's provided name
+        int power = Integer.parseInt(request.queryParams("power"));
+        String course = request.queryParams("course");
+        String weakness = request.queryParams("weakness");
+        Squad newSquad = new Squad(name, age, power, course, weakness); // Squad constructorcreating new squad with the user's provided name
         request.session().attribute("hero", "newSquad"); // We then save the squad object into the user's session
         heros.add(newSquad); // we create our Squad object and add it into the heros ArrayList
 
@@ -56,46 +61,63 @@ public class App {
         model.put("template", "templates/success.vtl");
         return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
-    
-  }
-}
 
-/*
+    // Category creation
 
-post("/heros", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      Squad heroAge = Squad.find(Integer.parseInt(request.queryParams("age")));
-      model.put("heroAge", heroAge);
-      model.put("template", "templates/success.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-post("/tasks", (request, response) -> {
-      Map<String, Object> model = new HashMap<String, Object>();
-      Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
-      String description = request.queryParams("description");
-      Task newTask = new Task(description);
-      category.addTask(newTask);
-      model.put("category", category);
-      model.put("template", "templates/category-task-success.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    post("/heros", (request, response) -> {
+    get("/categories/new", (request, response) -> {
         Map<String, Object> model = new HashMap<String, Object>();
-        ArrayList<Squad> heros = request.session().attribute("heros");
-        if (heros == null) { // We are retrieving an ArrayList from the session saved under the key "heros"
-            heros = new ArrayList<Squad>(); // If that ArrayList does not exist yet, we create a new one 
-            request.session().attribute("heros", heros); // And add it to the session
-        }
+        model.put("template", "templates/category-form.vtl");
+        return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    
+    // Posting categories into the app
 
-        int age = Integer.parseInt(request.queryParams("age")); // Saving user inputted hero name into a String
-        Squad heroAge = new Squad(age); // Squad constructorcreating new squad with the user's provided name
-        request.session().attribute("hero", "heroAge"); // We then save the squad object into the user's session
-        heros.add(heroAge); // we create our Squad object and add it into the heros ArrayList
+    post("/categories", (request, response) -> {
+         Map<String, Object> model = new HashMap<String, Object>();
+         String name = request.queryParams("name");
+         Category newCategory = new Category(name);
+         model.put("template", "templates/category-success.vtl");
+         return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+    
+    // Listing all categories
 
-        model.put("template", "templates/success.vtl");
+    get("/categories", (request, response) -> {
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("categories", Category.all());
+        model.put("template", "templates/categories.vtl");
         return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    */
+    // Category details page
+
+    get("/categories/:id", (request, response) -> {
+        Map<String, Object> model = new HashMap<String, Object>();
+        Category category = Category.find(Integer.parseInt(request.params(":id")));
+        model.put("category", category);
+        model.put("template", "templates/category.vtl");
+        return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/tasks", (request, response) -> {
+       Map<String, Object> model = new HashMap<String, Object>();
+
+       Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));
+
+       String name = request.queryParams("name"); // Saving user inputted hero name into a String
+        int age = Integer.parseInt(request.queryParams("age"));
+        int power = Integer.parseInt(request.queryParams("power"));
+        String course = request.queryParams("course");
+        String weakness = request.queryParams("weakness");
+        Squad newSquad = new Squad(name, age, power, course, weakness); // Squad constructorcreating new squad with the user's provided name
+        request.session().attribute("hero", "newSquad"); // We then save the squad object into the user's session
+
+       category.addHero(newSquad);
+
+       model.put("category", category);
+       model.put("template", "templates/category-heros-success.vtl");
+       return new ModelAndView(model, layout);
+}, new VelocityTemplateEngine());
+    
+  }
+}

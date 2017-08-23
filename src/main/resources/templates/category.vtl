@@ -1,0 +1,14 @@
+<h1>$category.getName() heros:</h1>
+
+<ul>
+  #foreach($hero in $category.getheros())
+   <li>$hero.getName()</li>
+   <li>$hero.getAge()</li>
+   <li>$hero.getPower()</li>
+   <li>$hero.getCourse()</li>
+   <li>$hero.getWeakness()</li>
+  #end
+</ul>
+
+<a href="/categories/$category.getId()/heros/new">Add a new hero</a>
+<a href="/categories">All squads</a>

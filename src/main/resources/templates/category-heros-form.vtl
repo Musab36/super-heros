@@ -1,7 +1,9 @@
-<h1>Add a new super hero:</h1>
+<h1>Add a hero to $category.getName()</h1>
 
 <form action="/heros" method="post">
-<div class="form-group">
+  <input id="categoryId" name="categoryId" type="hidden" value="$category.getId()">
+
+ <div class="form-group">
 <label for="name">Super Hero Name</label><br>
 <input id="name" name="name" type="text" placeholder="Super hero" class="inputs">
 </div>
@@ -26,5 +28,5 @@
 <input id="weakness" name="weakness" type="text" placeholder="Super hero's weakness" class="inputs">
 </div>
 
-<button type="submit" class="btn btn-info">Add Hero</button>
+  <button type="submit" class="btn btn-success">Add Hero</button>
 </form>
