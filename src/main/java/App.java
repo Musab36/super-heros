@@ -17,7 +17,7 @@ public class App {
    }
 
  setPort(port);
- 
+
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
@@ -110,7 +110,7 @@ public class App {
         return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/tasks", (request, response) -> {
+    post("/heros", (request, response) -> {
        Map<String, Object> model = new HashMap<String, Object>();
 
        Category category = Category.find(Integer.parseInt(request.queryParams("categoryId")));

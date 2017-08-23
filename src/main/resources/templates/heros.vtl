@@ -2,11 +2,9 @@
 
 
 #if ($heros)
-  <ul>
     #foreach ($hero in $heros)
-      <li><a href="/heros/$hero.getId()">$hero.getName()</a></li>
+      <h2><a href="/heros/$hero.getId()">$hero.getName()</a></h2>
     #end
-  </ul>
 #else
   <p>No super heros!</p>
 #end
