@@ -1,5 +1,7 @@
 <h1>All squads</h1>
+<ul>
   #foreach ($category in $categories)
-    <h2><a href="/categories/$category.getId()">$category.getName()</a></h2>
+    <li><a href="/categories/$category.getId()">$category.getName()</a></li>
   #end
+</ul>
 <a href="/categories/new">Add New Squad</a>
