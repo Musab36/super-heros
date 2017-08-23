@@ -1,9 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-archivesBaseName = "Super heros"
+archivesBaseName = "heros"
 version = '1.0'
 mainClassName = "App"
+applicationName = "squad"
 
 repositories {
   mavenCentral()
