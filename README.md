@@ -7,7 +7,7 @@ This project was created by **Musab Abdirahman** using java and spark
 Super Heros App is Spark app that allows you to recruit a squad of super heros
 
 # How to access Super Heros App
-Click [Link] (https://fast-everglades-42875.herokuapp.com/) here
+Click [here](https://fast-everglades-42875.herokuapp.com/)
 
 # Installation
 Feel free to clone my project
